@@ -63,7 +63,7 @@ public class JavaMail {
 			
 			String html = "<html><head>" +
 			"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">" +
-			"<title>特变电工经营管控信息平台</title>" +
+			"<title>测试</title>" +
 			"<body>" +
 				"<div style=\"text-align: center;\">" +
 					"<div class=\"header\">" +
@@ -81,7 +81,7 @@ public class JavaMail {
 					"<div style=\"height: 80px;\"></div>" +
 					"<div class=\"title\" style=\"text-align: center;\">" +
 						"<h1 style=\"color: #170A69; font-size: 300%\">" +
-							"<b>特变电工经营管控信息平台</b>" +
+							"<b>测试</b>" +
 						"</h1>" +
 					"</div>" +
 			"</body></html>";
