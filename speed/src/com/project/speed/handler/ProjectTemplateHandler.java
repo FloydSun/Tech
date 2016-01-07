@@ -83,6 +83,7 @@ public class ProjectTemplateHandler extends Handler {
 		List<String> fileList = new ArrayList<String>();
 		fileList.add("project/.classpath");
 		fileList.add("project/src/main/resources/META-INF/persistence.xml");
+		fileList.add("project/.settings/org.eclipse.wst.common.component");
 		fileList.add("project/.project");
 		fileList.add("project/pom.xml");
 		fileList.add("project/src/main/webapp/META-INF/context.xml");
