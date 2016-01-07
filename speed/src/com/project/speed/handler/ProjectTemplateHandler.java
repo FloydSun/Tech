@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.speed.request.Request;
+import com.project.speed.request.RequestServer;
 import com.project.speed.rule.NamingRule;
 import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
@@ -70,7 +71,10 @@ public class ProjectTemplateHandler extends Handler {
 				FileUtil.deleteFile(zipPath);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}			
+			}		
+			RequestServer.post(new Request(Request.CD, new String[]{outPath + "/project/src/main/java"}));
+			RequestServer.post(new Request(Request.PKG, new String[]{req.getArgs().get(1)}));
+			RequestServer.post(new Request(Request.CD, new String[]{}));
 			return true;
 		}
 		return false;

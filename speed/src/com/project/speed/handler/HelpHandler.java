@@ -7,14 +7,17 @@ public class HelpHandler extends Handler {
 
 	@Override
 	public boolean onHandle(Request cmd) {
-		System.out.println("template <project name> <package name>");
-		System.out.println("frame <package name> <component Name> <transaction> [<entityName> <tableName> <db name>]");
-		System.out.println("servlet <class name> <request map>");
-		System.out.println("service <class name> <transaction> [<servlet name>]");
-		System.out.println("dao <class name> <db name>  <transaction> [<service name>]");
-		System.out.println("entity <-i | -n> <class name> <table name> ");
-		System.out.println("cd <path>");
-		System.out.println("pkg <package>");
+		System.out.println(Request.TEMPLATE  + " <project name> <package name>");
+		System.out.println(Request.FRAME  + " <component Name> <transaction> [<entityName> <tableName> <db name>]");
+		System.out.println(Request.SERVLET  + " <component Name> <request map>");
+		System.out.println(Request.SERVICE  + " <component Name> <transaction> [<servlet name>]");
+		System.out.println(Request.DAO  + " <component Name> <db name>  <transaction> [<service name>]");
+		System.out.println(Request.ENTITY  + " <-f | -n> <component Name> <table name> ");
+		System.out.println(Request.CD  + " <path>");
+		System.out.println(Request.PKG  + " [<package>]");
+		System.out.println(Request.LS);
+		System.out.println(Request.EXIT);
+		System.out.println(Request.HELP);
 		return true;
 	}
 

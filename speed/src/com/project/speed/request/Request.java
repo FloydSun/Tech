@@ -15,7 +15,9 @@ public class Request {
 	public final static String EXIT = "exit";
 	public final static String CD = "cd";
 	public final static String PKG = "pkg";
-	public final static String TEMPLATE = "template";
+	public final static String HELP = "help";
+	public final static String TEMPLATE = "project";
+	public final static String LS = "ls";
 	
 	String type;
 	List<String> args;

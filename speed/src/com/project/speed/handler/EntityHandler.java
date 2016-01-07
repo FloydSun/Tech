@@ -2,6 +2,7 @@ package com.project.speed.handler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
@@ -10,9 +11,11 @@ import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
 
-//entity <-i | -n> <class name> <table name>
+//entity <-i | -n> <component Name> <table name>
 public class EntityHandler extends Handler {
 
+	static Pattern classPattern = Pattern.compile("(Entity)$");   
+	
 	private boolean validateRequest(Request req){
 		boolean bRet = true;
 		if (Request.ENTITY.equals(req.getType())){
@@ -40,7 +43,11 @@ public class EntityHandler extends Handler {
 	@Override
 	public boolean onHandle(Request req) {
 		if (validateRequest(req)){
-			String path = OptionRule.getBasePath() + "/" + req.getArgs().get(1).replace(".", "/") + ".java";
+			
+
+			
+			String totalClassName = NamingRule.getEntityName(req.getArgs().get(1));
+			String path = NamingRule.getEntityPath(req.getArgs().get(1)) + ".java";
 			
 			try {
 				File file = new File(path);
@@ -50,21 +57,20 @@ public class EntityHandler extends Handler {
 				
 				String text = FileUtil.readText(path, "utf-8");
 				text = CodeUtil.setTableName(text, req.getArgs().get(2));
-				text = CodeUtil.setClassName(text, NamingRule.getClassName(req.getArgs().get(1)));
-				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(req.getArgs().get(1)));
-				if ("-i".equals(req.getArgs().get(0))){
+				text = CodeUtil.setClassName(text, NamingRule.getClassName(totalClassName));
+				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(totalClassName));
+				if ("-f".equals(req.getArgs().get(0))){
 					text = CodeUtil.setExtendsName(text, "AbstractReadWriteEntity");
 					text = CodeUtil.addMember(text, "@Id\r\n@GeneratedValue(strategy = GenerationType.AUTO)\r\n@Column(name = \"id\")\r\npublic int getId() {\r\nreturn super.getId();\r\n}");
-					String daoName = NamingRule.getDaoName(req.getArgs().get(1));
-					String daoPath = OptionRule.getBasePath() + "/" + daoName.replace(".", "/") + ".java";
+					String daoPath = NamingRule.getDaoPath(req.getArgs().get(1)) + ".java";
 					String textDao = FileUtil.readText(daoPath, "utf-8");
-					textDao = CodeUtil.setExtendsName(textDao, "AbstractReadWriteDao<" + NamingRule.getClassName(req.getArgs().get(1)) + ">");
-					textDao = CodeUtil.addImport(textDao, req.getArgs().get(1));
+					textDao = CodeUtil.setExtendsName(textDao, "AbstractReadWriteDao<" + NamingRule.getClassName(totalClassName) + ">");
+					textDao = CodeUtil.addImport(textDao, totalClassName);
 					FileUtil.setText(daoPath, textDao, "utf-8");
-					String daoPathImpl = OptionRule.getBasePath() + "/" + daoName.replace(".", "/") + "Impl.java";
+					String daoPathImpl = NamingRule.getDaoPath(req.getArgs().get(1)) + "Impl.java";
 					String textDaoImpl = FileUtil.readText(daoPathImpl, "utf-8");
-					textDaoImpl = CodeUtil.addImport(textDaoImpl, req.getArgs().get(1));
-					textDaoImpl = CodeUtil.setExtendsName(textDaoImpl, "AbstractReadWriteDaoImpl<" + NamingRule.getClassName(req.getArgs().get(1)) + ">");
+					textDaoImpl = CodeUtil.addImport(textDaoImpl, totalClassName);
+					textDaoImpl = CodeUtil.setExtendsName(textDaoImpl, "AbstractReadWriteDaoImpl<" + NamingRule.getClassName(totalClassName) + ">");
 					textDaoImpl = CodeUtil.setEntityManager(textDaoImpl, "public void setEntityManager(EntityManager entityManager) {\r\n" +
 						"super.setEntityManager(entityManager);\r\n" +
 					"}");

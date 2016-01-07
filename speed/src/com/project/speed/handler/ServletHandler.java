@@ -9,7 +9,7 @@ import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
-//servlet <class name> <request map>
+//servlet <component Name> <request map>
 public class ServletHandler extends Handler {
 
 	
@@ -34,9 +34,8 @@ public class ServletHandler extends Handler {
 	@Override
 	public boolean onHandle(Request req) {
 		if (validateRequest(req)) {
-
-			String path = OptionRule.getBasePath() + "/" + req.getArgs().get(0).replace(".", "/") + ".java";
-			
+			String totalClassName = NamingRule.getServletName(req.getArgs().get(0));
+			String path = NamingRule.getServletPath(req.getArgs().get(0)) + ".java";
 			try {
 				File file = new File(path);
 				if (!file.exists()) {
@@ -45,8 +44,8 @@ public class ServletHandler extends Handler {
 				
 				String text = FileUtil.readText(path, "utf-8");
 				text = CodeUtil.setRequestName(text, req.getArgs().get(1));
-				text = CodeUtil.setClassName(text, NamingRule.getClassName(req.getArgs().get(0)));
-				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(req.getArgs().get(0)));
+				text = CodeUtil.setClassName(text, NamingRule.getClassName(totalClassName));
+				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(totalClassName));
 				FileUtil.setText(path, text, "utf-8");
 
 			} catch (IOException e) {

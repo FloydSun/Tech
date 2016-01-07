@@ -2,6 +2,7 @@ package com.project.speed.handler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
@@ -10,14 +11,18 @@ import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
 
-//dao <class name> <db name> <transaction> [<service name>]
+//dao <component Name> <db name> <transaction> [<service name>]
 public class DaoHandler extends Handler {
 
+	static Pattern classPattern = Pattern.compile("(Dao)$");   
+	
 	@Override
 	public boolean onHandle(Request req) {
 		if (Request.DAO.equals(req.getType())){
-			String interfacePath = OptionRule.getBasePath() + "/" + req.getArgs().get(0).replace(".", "/") + ".java";
-			String classPath = OptionRule.getBasePath() + "/" + req.getArgs().get(0).replace(".", "/") + "Impl.java";
+		
+			String totalClassName = NamingRule.getDaoName(req.getArgs().get(0));
+			String interfacePath = NamingRule.getDaoPath(req.getArgs().get(0)) + ".java";
+			String classPath = NamingRule.getDaoPath(req.getArgs().get(0)) + "Impl.java";
 
 			try {
 				File interfacefile = new File(interfacePath);
@@ -31,8 +36,8 @@ public class DaoHandler extends Handler {
 				}
 				
 				
-				String className = NamingRule.getClassName(req.getArgs().get(0));
-				String pkgName = NamingRule.getPackageName(req.getArgs().get(0));
+				String className = NamingRule.getClassName(totalClassName);
+				String pkgName = NamingRule.getPackageName(totalClassName);
 				
 				String text = FileUtil.readText(interfacePath, "utf-8");
 				text = CodeUtil.setInterfaceName(text, className);
@@ -40,7 +45,7 @@ public class DaoHandler extends Handler {
 				FileUtil.setText(interfacePath, text, "utf-8");
 				
 				text = FileUtil.readText(classPath, "utf-8");
-				text = CodeUtil.addImport(text, req.getArgs().get(0));
+				text = CodeUtil.addImport(text, totalClassName);
 				text = CodeUtil.setPackageName(text, pkgName);
 				text = CodeUtil.setImplementsName(text, className);
 				text = CodeUtil.setClassName(text, className + "Impl");
@@ -50,11 +55,11 @@ public class DaoHandler extends Handler {
 				
 				
 				if (req.getArgs().size() > 3){
-					String servletPath = OptionRule.getBasePath() + "/" + req.getArgs().get(3).replace(".", "/") + "Impl.java";
-					text = FileUtil.readText(servletPath, "utf-8");
-					text = CodeUtil.addImport(text, req.getArgs().get(0));
+					String servicePath = NamingRule.getServicePath(req.getArgs().get(3)).replace(".", "/") + "Impl.java";
+					text = FileUtil.readText(servicePath, "utf-8");
+					text = CodeUtil.addImport(text, totalClassName);
 					text = CodeUtil.addMember(text, "\t@Autowired\r\n\t" + className + " " + className.substring(0, 1).toLowerCase() + className.substring(1) + ";");
-					FileUtil.setText(servletPath, text, "utf-8");
+					FileUtil.setText(servicePath, text, "utf-8");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

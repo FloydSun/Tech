@@ -3,7 +3,7 @@ package com.project.speed.rule;
 public class OptionRule {
 	
 	static String basePath = "";
-	static String basePackage = "";
+	static String basePackage = null;
 	public static String getBasePath() {
 		return basePath;
 	}
@@ -17,8 +17,12 @@ public class OptionRule {
 	public static String getBasePackage() {
 		return basePackage;
 	}
-	public static void setBasePackage(String basePackage) {
-		OptionRule.basePackage = basePackage;
+	public static boolean setBasePackage(String basePackage) {
+		if (NamingRule.validatePackage(basePackage)){
+			OptionRule.basePackage = basePackage;
+			return true;
+		}
+		return false;
 	}
 	
 	
