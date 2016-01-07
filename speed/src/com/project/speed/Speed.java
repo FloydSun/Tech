@@ -51,7 +51,7 @@ public class Speed {
 			@Override
 			public Request produce() {
 				try {
-					System.out.print("speed : " + OptionRule.getBasePath() + " >");
+					System.out.print(">");
 					return Request.parse(br.readLine());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

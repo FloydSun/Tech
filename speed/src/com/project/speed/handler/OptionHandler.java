@@ -1,5 +1,7 @@
 package com.project.speed.handler;
 
+import java.io.File;
+
 import com.project.speed.request.Request;
 import com.project.speed.rule.OptionRule;
 
@@ -10,9 +12,23 @@ public class OptionHandler extends Handler {
 	@Override
 	public boolean onHandle(Request req) {
 		if (Request.LS.equals(req.getType())){//cd <path>
-			System.out.println("base path : " + OptionRule.getBasePath());
+			File file = new File(OptionRule.getBasePath());  
+	        File[] subFile = file.listFiles();  
+	  
+	        for (int iFileLength = 0; iFileLength < subFile.length; iFileLength++) {  
+	        	 String fileName = subFile[iFileLength].getName();  
+	            if (!subFile[iFileLength].isDirectory()) {  
+	                System.out.println(fileName );
+	            } else{
+	            	System.out.println(fileName + "/");
+	            }
+	        }  
+			System.out.println(OptionRule.getBasePath());
 			return true;
-		}else if (Request.CD.equals(req.getType())){//cd <path>
+		}else if (Request.PWD.equals(req.getType())){//cd <path>
+			System.out.println(OptionRule.getBasePath());
+			return true;
+		}else if (Request.SWD.equals(req.getType())){//cd <path>
 			if (req.getArgs().isEmpty()){
 				System.out.println("参数过少 ");
 			}else{

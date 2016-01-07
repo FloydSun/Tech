@@ -13,10 +13,11 @@ public class Request {
 	public final static String ENTITY = "entity";
 	public final static String DAO = "dao";
 	public final static String EXIT = "exit";
-	public final static String CD = "cd";
+	public final static String SWD = "swd";
 	public final static String PKG = "pkg";
 	public final static String HELP = "help";
 	public final static String PROJECT = "project";
+	public final static String PWD = "pwd";
 	public final static String LS = "ls";
 	
 	String type;
