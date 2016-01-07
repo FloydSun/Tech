@@ -7,7 +7,7 @@ public class HelpHandler extends Handler {
 
 	@Override
 	public boolean onHandle(Request cmd) {
-		System.out.println(Request.TEMPLATE  + " <project name> <package name>");
+		System.out.println(Request.PROJECT  + " <project name> <package name>");
 		System.out.println(Request.FRAME  + " <component Name> <transaction> [<entityName> <tableName> <db name>]");
 		System.out.println(Request.SERVLET  + " <component Name> <request map>");
 		System.out.println(Request.SERVICE  + " <component Name> <transaction> [<servlet name>]");

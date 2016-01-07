@@ -12,11 +12,11 @@ import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
 //template <project name> <package name>
-public class ProjectTemplateHandler extends Handler {
+public class ProjectHandler extends Handler {
 
 	private boolean validateRequest(Request req){
 		boolean bRet = true;
-		if (Request.TEMPLATE.equals(req.getType())){
+		if (Request.PROJECT.equals(req.getType())){
 			if (req.getArgs().size() >= 2){
 				if (!NamingRule.validatePackage(req.getArgs().get(1))){
 					System.out.println("package name 非法");
@@ -74,7 +74,7 @@ public class ProjectTemplateHandler extends Handler {
 			}		
 			RequestServer.post(new Request(Request.CD, new String[]{outPath + "/project/src/main/java"}));
 			RequestServer.post(new Request(Request.PKG, new String[]{req.getArgs().get(1)}));
-			RequestServer.post(new Request(Request.CD, new String[]{}));
+			RequestServer.post(new Request(Request.LS, new String[]{}));
 			return true;
 		}
 		return false;

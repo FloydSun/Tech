@@ -11,7 +11,7 @@ import com.project.speed.handler.FrameHandler;
 import com.project.speed.handler.Handler;
 import com.project.speed.handler.HelpHandler;
 import com.project.speed.handler.OptionHandler;
-import com.project.speed.handler.ProjectTemplateHandler;
+import com.project.speed.handler.ProjectHandler;
 import com.project.speed.handler.ServiceHandler;
 import com.project.speed.handler.ServletHandler;
 import com.project.speed.request.Request;
@@ -75,7 +75,7 @@ public class Speed {
 		Handler requestHandler = new FrameHandler();
 		requestHandler
 			.chain(new ExitHandler())
-			.chain(new ProjectTemplateHandler())
+			.chain(new ProjectHandler())
 			.chain(new OptionHandler())
 			.chain(new ServletHandler())
 			.chain(new ServiceHandler())
