@@ -14,7 +14,7 @@ import com.project.speed.util.FileUtil;
 public class WebServiceHandler extends Handler {
 
 	private static final String WS_CONFIG =
-		"<bean id=\"WEBSERVICE\" class=\"com.speed.template.controller.webservice.nacao.NacaoWebServiceImpl\" />\r\n\t"+
+		"<bean id=\"WEBSERVICE\" class=\"CLASSNAME\" />\r\n\t"+
 			"<jaxws:server id=\"WEBSERVICESERVER\" serviceBean=\"#WEBSERVICE\" address=\"ADDRESS\">"+
 		"</jaxws:server>\r\n\t"; 
 	
@@ -60,7 +60,11 @@ public class WebServiceHandler extends Handler {
 		
 				String webConfigPath = FileUtil.getDir(OptionRule.getBasePath()) + "/webapp/WEB-INF/applicationContext-webservices.xml";
 				text = FileUtil.readText(webConfigPath, "utf-8");
-				String newService = WS_CONFIG.replace("WEBSERVICE", req.getArgs().get(0)).replace("WEBSERVICESERVER", req.getArgs().get(0) + "Server").replace("ADDRESS", req.getArgs().get(1));
+				String newService = WS_CONFIG
+						.replace("WEBSERVICE", req.getArgs().get(0))
+						.replace("WEBSERVICESERVER", req.getArgs().get(0) + "Server")
+						.replace("ADDRESS", req.getArgs().get(1))
+						.replace("CLASSNAME", totalClassName);
 				text = text.replace("<context:component-scan", newService + "<context:component-scan");
 				FileUtil.setText(webConfigPath, text, "utf-8");
 			} catch (IOException e) {
