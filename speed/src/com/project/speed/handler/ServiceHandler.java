@@ -10,7 +10,7 @@ import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
 
-//service <component Name> <transaction> [<servlet name>]
+//service <component Name> <transaction> [-w|-s <controller name>]
 public class ServiceHandler extends Handler {
 
 	
@@ -28,9 +28,14 @@ public class ServiceHandler extends Handler {
 					bRet = false;
 				}
 				
-				if (req.getArgs().size() > 2 && !NamingRule.validatePackage(req.getArgs().get(2))){
-					System.out.println("servlet name 非法");
-					bRet = false;
+				if (req.getArgs().size() > 2){
+					if (req.getArgs().size() <= 3){
+						System.out.println("参数过少");
+						bRet = false;
+					}else if (!NamingRule.validateClass(req.getArgs().get(3))){
+						System.out.println("controller name 非法");
+						bRet = false;
+					}
 				}
 				
 			}else{
@@ -80,11 +85,18 @@ public class ServiceHandler extends Handler {
 				
 				
 				if (req.getArgs().size() > 2){
-					String servletPath = NamingRule.getServletPath(req.getArgs().get(0)) + ".java";
-					text = FileUtil.readText(servletPath, "utf-8");
+					
+					String controllerPath;
+					if ("-s".equals(req.getArgs().get(2))){
+						controllerPath = NamingRule.getServletPath(req.getArgs().get(0)) + ".java";
+					}else{
+						controllerPath = NamingRule.getWebServicePath(req.getArgs().get(0)) + ".java";
+					}
+					
+					text = FileUtil.readText(controllerPath, "utf-8");
 					text = CodeUtil.addImport(text, totalClassName);
 					text = CodeUtil.addMember(text, "\t@Autowired\r\n\t" + className + " " + className.substring(0, 1).toLowerCase() + className.substring(1) + ";");
-					FileUtil.setText(servletPath, text, "utf-8");
+					FileUtil.setText(controllerPath, text, "utf-8");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

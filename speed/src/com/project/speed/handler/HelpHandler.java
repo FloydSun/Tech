@@ -11,7 +11,8 @@ public class HelpHandler extends Handler {
 		System.out.println(Request.PROJECT  + " <project name> <package name>");
 		System.out.println(Request.FRAME  + " <component Name> <transaction> [<entityName> <tableName> <db name>]");
 		System.out.println(Request.SERVLET  + " <component Name> <request map>");
-		System.out.println(Request.SERVICE  + " <component Name> <transaction> [<servlet name>]");
+		System.out.println(Request.WEBSERVICE  + " <component Name> <request map>");
+		System.out.println(Request.SERVICE  + " <component Name> <transaction> [-w|-s <controller name>]");
 		System.out.println(Request.DAO  + " <component Name> <db name>  <transaction> [<service name>]");
 		System.out.println(Request.ENTITY  + " <-f | -n> <component Name> <table name> ");
 		System.out.println(Request.SWD  + " <path>" + " 设置工作路径 ");

@@ -1,5 +1,6 @@
 package com.project.speed.handler;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,10 @@ import com.project.speed.util.FileUtil;
 //template <project name> <package name>
 public class ProjectHandler extends Handler {
 
+	private static final String srcPath = "/project/src/main/java/com/speed/template/common/";
+	private static final String javaPath = "/project/src/main/java";
+
+	
 	private boolean validateRequest(Request req){
 		boolean bRet = true;
 		if (Request.PROJECT.equals(req.getType())){
@@ -32,28 +37,26 @@ public class ProjectHandler extends Handler {
 		return bRet;
 	}
 	
-	
-	
 	private void modifySourceFile(String outPath, String pkgName, String projName) throws IOException{
-//		d:/test66/oop/src/main/java/AjaxRedirect.java
-//		d:/test66/oop/src/main/java/CharacterEncodingFilter.java
-//		d:/test66/oop/src/main/java/OnlineService.java
-//		d:/test66/oop/src/main/java/RequestValidator.java
 		pkgName += ".common";
 		String pkgPath = pkgName.replace(".", "/");
 		List<String> fileList = new ArrayList<String>();
 		fileList.add("AjaxRedirect.java");
-		fileList.add("CharacterEncodingFilter.java");
 		fileList.add("OnlineService.java");
 		fileList.add("RequestValidator.java");
 		for(String src : fileList){
-			String text = FileUtil.readText(outPath + "/project/src/main/java/" + src, "utf-8");		
+			String text = FileUtil.readText(outPath + srcPath + src, "utf-8");		
 			text = CodeUtil.setPackageName(text, pkgName);
-			FileUtil.setText(outPath + "/project/src/main/java/" + src, text, "utf-8");
-			FileUtil.cut(outPath + "/project/src/main/java/" + src, 
-					outPath + "/project/src/main/java/" + pkgPath + "/" + src);
+			FileUtil.setText(outPath + srcPath + src, text, "utf-8");
+			FileUtil.cut(outPath + srcPath + src, outPath + javaPath + "/" + src);
 		}
 		
+		FileUtil.deleteDir(new File(outPath + javaPath + "/com"));
+		
+		for(String src : fileList){
+			FileUtil.cut(outPath + javaPath + "/" + src, 
+					outPath + javaPath + "/" + pkgPath + "/" + src);
+		}
 	}
 	
 	@Override
@@ -72,7 +75,7 @@ public class ProjectHandler extends Handler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
-			RequestServer.post(new Request(Request.SWD, new String[]{outPath + "/project/src/main/java"}));
+			RequestServer.post(new Request(Request.SWD, new String[]{outPath + javaPath}));
 			RequestServer.post(new Request(Request.PKG, new String[]{req.getArgs().get(1)}));
 			RequestServer.post(new Request(Request.PWD, new String[]{}));
 			return true;
@@ -80,25 +83,31 @@ public class ProjectHandler extends Handler {
 		return false;
 	}
 
-
-
 	private void modifyConfigFile(String outPath, String pkgName,
 			String projName) throws IOException {
 		List<String> fileList = new ArrayList<String>();
-		fileList.add("project/.classpath");
-		fileList.add("project/src/main/resources/META-INF/persistence.xml");
 		fileList.add("project/.settings/org.eclipse.wst.common.component");
 		fileList.add("project/.project");
 		fileList.add("project/pom.xml");
-		fileList.add("project/src/main/webapp/META-INF/context.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-services.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-servlet.xml");
+		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-webservices.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/web.xml");
 		for(String src : fileList){
 			String text = FileUtil.readText(outPath + "/" + src, "utf-8");		
-			text = text.replace("[packageName]", pkgName).replace("[projectName]", projName);
+			text = text.replace("com.speed.template", pkgName).replace("speedTemplate", projName);
+			FileUtil.setText(outPath + "/" + src, text, "utf-8");
+		}
+		
+		fileList.clear();
+		fileList.add("frame/.settings/org.eclipse.wst.common.component");
+		fileList.add("frame/.project");
+		fileList.add("frame/pom.xml");
+		fileList.add("project/pom.xml");
+		for(String src : fileList){
+			String text = FileUtil.readText(outPath + "/" + src, "utf-8");		
+			text = text.replace("frame.template", "com.speed.frame").replace("frameTemplate", "frame");
 			FileUtil.setText(outPath + "/" + src, text, "utf-8");
 		}
 	}
-
 }

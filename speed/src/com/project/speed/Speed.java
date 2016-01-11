@@ -14,6 +14,7 @@ import com.project.speed.handler.OptionHandler;
 import com.project.speed.handler.ProjectHandler;
 import com.project.speed.handler.ServiceHandler;
 import com.project.speed.handler.ServletHandler;
+import com.project.speed.handler.WebServiceHandler;
 import com.project.speed.request.Request;
 import com.project.speed.request.RequestServer;
 import com.project.speed.rule.OptionRule;
@@ -77,6 +78,7 @@ public class Speed {
 			.chain(new ExitHandler())
 			.chain(new ProjectHandler())
 			.chain(new OptionHandler())
+			.chain(new WebServiceHandler())
 			.chain(new ServletHandler())
 			.chain(new ServiceHandler())
 			.chain(new DaoHandler())

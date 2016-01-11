@@ -17,6 +17,7 @@ public class Request {
 	public final static String PKG = "pkg";
 	public final static String HELP = "help";
 	public final static String PROJECT = "project";
+	public final static String WEBSERVICE = "webservice";
 	public final static String PWD = "pwd";
 	public final static String LS = "ls";
 	

@@ -14,7 +14,7 @@ import java.util.zip.ZipFile;
 
 public class FileUtil {
 	
-	private static String getDir(String path){
+	public static String getDir(String path){
 		int index = path.lastIndexOf('/');
 		if (index < 0){
 			index = path.lastIndexOf('\\');
@@ -24,6 +24,19 @@ public class FileUtil {
 	
 	public static boolean exists(String path){
 		return new File(path).exists();
+	}
+	
+	public static boolean deleteDir(File dir) {
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
+					return false;
+				}
+			}
+		}
+		return dir.delete();
 	}
 	
 	public static boolean copy(InputStream is, OutputStream os) throws IOException{

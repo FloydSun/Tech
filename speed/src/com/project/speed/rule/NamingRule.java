@@ -11,7 +11,15 @@ public class NamingRule {
 	}
 	
 	public static String getServletName(String componentName){
-		return OptionRule.getBasePackage() + ".controller.servlet." + componentName.toLowerCase() + "." + componentName + "Controller";
+		return OptionRule.getBasePackage() + ".controller.servlet." + componentName.toLowerCase() + "." + componentName + "Servlet";
+	}
+	
+	public static String getWebServicePath(String componentName){
+		return OptionRule.getBasePath() + "/" + getWebServiceName(componentName).replace(".", "/");
+	}
+	
+	public static String getWebServiceName(String componentName){
+		return OptionRule.getBasePackage() + ".controller.webservice." + componentName.toLowerCase() + "." + componentName + "WebService";
 	}
 	
 	public static String getServicePath(String componentName){
