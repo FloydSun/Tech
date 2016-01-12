@@ -94,6 +94,7 @@ public class ServiceHandler extends Handler {
 					}
 					
 					text = FileUtil.readText(controllerPath, "utf-8");
+					text = CodeUtil.addImport(text, "javax.annotation.Resource");
 					text = CodeUtil.addImport(text, totalClassName);
 					text = CodeUtil.addImport(text, totalClassName + "Impl");
 					text = CodeUtil.addMember(text, "\t@Resource(name=" + className + "Impl.NAME" + ")\r\n\t" + className + " " + className.substring(0, 1).toLowerCase() + className.substring(1) + ";");

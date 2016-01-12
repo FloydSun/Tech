@@ -105,11 +105,14 @@ public class CodeUtil {
 	
 	
 	public static String addImport(String src, String name){
-		Matcher matcher = importPattern.matcher(src);
-		if (matcher.find()){
-			return src.substring(0, matcher.start()) + 
-					"import " + name + ";\r\n" + 
-					src.substring(matcher.start());
+		Pattern impPattern = Pattern.compile("import\\s+" + name); 
+		if (!impPattern.matcher(src).find()){
+			Matcher matcher = importPattern.matcher(src);
+			if (matcher.find()){
+				return src.substring(0, matcher.start()) + 
+						"import " + name + ";\r\n" + 
+						src.substring(matcher.start());
+			}
 		}
 		return src;
 	}

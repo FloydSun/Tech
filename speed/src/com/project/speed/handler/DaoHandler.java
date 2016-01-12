@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
-import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
@@ -58,6 +57,7 @@ public class DaoHandler extends Handler {
 					text = FileUtil.readText(servicePath, "utf-8");
 					text = CodeUtil.addImport(text, totalClassName);
 					text = CodeUtil.addImport(text, totalClassName + "Impl");
+					text = CodeUtil.addImport(text, "javax.annotation.Resource");
 					text = CodeUtil.addMember(text, "\t@Resource(name=" + className + "Impl.NAME" + ")\r\n\t" + className + " " + className.substring(0, 1).toLowerCase() + className.substring(1) + ";");
 					FileUtil.setText(servicePath, text, "utf-8");
 				}
