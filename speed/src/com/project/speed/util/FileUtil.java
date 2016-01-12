@@ -12,6 +12,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.project.speed.rule.OptionRule;
+
 public class FileUtil {
 	
 	public static String getDir(String path){
@@ -54,6 +56,23 @@ public class FileUtil {
 	}
 	
 	
+
+	//from and to end with "/" or "\"
+    public static void cutFolder(String from, String to) throws IOException{
+    	File file = new File(from);  
+        File[] subFile = file.listFiles();  
+
+        for (int iFileLength = 0; iFileLength < subFile.length; iFileLength++) {  
+        	String fileName = subFile[iFileLength].getName();  
+            if (!subFile[iFileLength].isDirectory()) {  
+                cut(from + fileName, to + fileName);
+            } else{
+            	cutFolder(from + fileName + "/", to + fileName + "/");
+            }
+        }
+		deleteFile(from);
+	}
+    
 	public static void cut(String from, String to) throws IOException{
 		File outputFile = new File(getDir(to));
 		if (!outputFile.exists()){

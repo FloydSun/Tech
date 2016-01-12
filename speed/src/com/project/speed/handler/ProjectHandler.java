@@ -75,7 +75,14 @@ public class ProjectHandler extends Handler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}		
-			RequestServer.post(new Request(Request.SWD, new String[]{outPath + javaPath}));
+			
+			try {
+				FileUtil.cutFolder(outPath + "/project/", outPath + "/" + projName + "/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			RequestServer.post(new Request(Request.SWD, new String[]{outPath + javaPath.replace("project", projName)}));
 			RequestServer.post(new Request(Request.PKG, new String[]{req.getArgs().get(1)}));
 			RequestServer.post(new Request(Request.PWD, new String[]{}));
 			return true;
