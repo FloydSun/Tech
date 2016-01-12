@@ -25,6 +25,7 @@ public class CodeUtil {
 	}
 	
 	public static String setClassName(String src, String name){
+		src = src.replace("[className]", name);
 		Matcher matcher = classPattern.matcher(src);
 		if (matcher.find()){
 			return matcher.replaceFirst(" class " + name);

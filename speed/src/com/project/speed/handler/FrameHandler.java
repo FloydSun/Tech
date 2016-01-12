@@ -64,13 +64,16 @@ public class FrameHandler extends Handler {
 			}));
 			
 			RequestServer.post(new Request(Request.SERVICE, new String[]{req.getArgs().get(0),
-					req.getArgs().get(1)
+					req.getArgs().get(1),
+					"-s",
+					req.getArgs().get(0)
 			}));
 			
 			if (req.getArgs().size() > 2){
 				RequestServer.post(new Request(Request.DAO, new String[]{req.getArgs().get(2),
 						req.getArgs().get(4),
-						req.getArgs().get(1)
+						req.getArgs().get(1),
+						req.getArgs().get(0)
 				}));
 				
 				RequestServer.post(new Request(Request.ENTITY, new String[]{

@@ -72,8 +72,8 @@ public class EntityHandler extends Handler {
 					textDaoImpl = CodeUtil.addImport(textDaoImpl, totalClassName);
 					textDaoImpl = CodeUtil.setExtendsName(textDaoImpl, "AbstractReadWriteDaoImpl<" + NamingRule.getClassName(totalClassName) + ">");
 					textDaoImpl = CodeUtil.setEntityManager(textDaoImpl, "public void setEntityManager(EntityManager entityManager) {\r\n" +
-						"super.setEntityManager(entityManager);\r\n" +
-					"}");
+						"\t\tsuper.setEntityManager(entityManager);\r\n" +
+					"\t}");
 					FileUtil.setText(daoPathImpl, textDaoImpl, "utf-8");
 				}
 				FileUtil.setText(path, text, "utf-8");
