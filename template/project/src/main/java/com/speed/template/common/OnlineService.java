@@ -2,7 +2,9 @@ package com.speed.template.common;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,10 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 public class OnlineService implements HttpSessionListener{
+	
+	public interface SessionVisitor{
+		void visit(HttpSession session);
+	}
 	
 	private static Map<String, HttpSession> onlineSessions = Collections.synchronizedMap(new HashMap<String, HttpSession>());
 	private final static String ONLINE_TAG = "detector.online";
@@ -51,5 +57,15 @@ public class OnlineService implements HttpSessionListener{
 	public void sessionDestroyed(HttpSessionEvent event) {
 		event.getSession().setAttribute(ONLINE_TAG, false);
 		onlineSessions.remove(event.getSession().getId());		
+	}
+	
+	public void accept(SessionVisitor visitor){
+	    Set<String> keys = onlineSessions.keySet();
+	    synchronized (keys) {
+	        Iterator<String> i = keys.iterator(); // Must be in the synchronized block
+	        while (i.hasNext()){
+	        	visitor.visit(onlineSessions.get(i.next()));
+	        }
+	    }
 	}
 }
