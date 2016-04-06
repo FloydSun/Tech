@@ -17,6 +17,7 @@ public class OptionRule {
 	public static String getBasePackage() {
 		return basePackage;
 	}
+	
 	public static boolean setBasePackage(String basePackage) {
 		if (NamingRule.validatePackage(basePackage)){
 			OptionRule.basePackage = basePackage;

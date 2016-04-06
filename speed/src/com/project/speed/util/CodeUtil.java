@@ -51,6 +51,11 @@ public class CodeUtil {
 				String cls = matcher.group(0);
 				return matcher.replaceFirst(cls + " extends " + name);
 			}
+			matcher = interfacePattern.matcher(src);
+			if (matcher.find()){
+				String cls = matcher.group(0);
+				return matcher.replaceFirst(cls + " extends " + name);
+			}
 		}
 		return src;
 	}
@@ -113,6 +118,14 @@ public class CodeUtil {
 						"import " + name + ";\r\n" + 
 						src.substring(matcher.start());
 			}
+
+			matcher = packagePattern.matcher(src);
+			if (matcher.find()){
+				return src.substring(0, matcher.end()) + 
+						"\r\nimport " + name + ";\r\n" + 
+						src.substring(matcher.end());
+			}
+			
 		}
 		return src;
 	}

@@ -3,7 +3,6 @@ package com.project.speed.handler;
 import com.project.speed.request.Request;
 import com.project.speed.request.RequestServer;
 import com.project.speed.rule.NamingRule;
-import com.project.speed.rule.OptionRule;
 
 
 //frame <component Name> <transaction> [<entityName> <tableName> <db name>]

@@ -6,7 +6,7 @@ public abstract class Handler {
 	
 	Handler next;
 	
-	public Handler chain(Handler next){
+	public Handler add(Handler next){
 		this.next = next;
 		return next;
 	}

@@ -21,14 +21,11 @@ import com.project.speed.rule.OptionRule;
 
 public class Speed {
 
-	
-	
 	interface RequestProducer{
 		Request produce();
 	}
 	
 	public static String getProjectPath() {
-		 
 	       java.net.URL url = Speed.class .getProtectionDomain().getCodeSource().getLocation();
 	       String filePath = null ;
 	       try {
@@ -62,28 +59,20 @@ public class Speed {
 			}
 		};
 	}
-	
-	public static void main(String[] args) throws IOException{		
-		
-		RequestProducer producer = null;
-		if (args.length > 0){
-			producer = getArgsProducer(args);
-		}
-		else{
-			producer = getConsoleProducer();
-		}
 
+	
+	public static void start(RequestProducer producer){
 		Handler requestHandler = new FrameHandler();
 		requestHandler
-			.chain(new ExitHandler())
-			.chain(new ProjectHandler())
-			.chain(new OptionHandler())
-			.chain(new WebServiceHandler())
-			.chain(new ServletHandler())
-			.chain(new ServiceHandler())
-			.chain(new DaoHandler())
-			.chain(new EntityHandler())
-			.chain(new HelpHandler());
+			.add(new ExitHandler())
+			.add(new ProjectHandler())
+			.add(new OptionHandler())
+			.add(new WebServiceHandler())
+			.add(new ServletHandler())
+			.add(new ServiceHandler())
+			.add(new DaoHandler())
+			.add(new EntityHandler())
+			.add(new HelpHandler());
 	
 		RequestServer.start();
 		OptionRule.setBasePath(getProjectPath());
@@ -94,6 +83,19 @@ public class Speed {
 				requestHandler.handle(req);
 			}
 		}
+	}
+	
+	public static void main(String[] args) throws IOException{		
+		
+		RequestProducer producer = null;
+		if (args.length > 0){
+			producer = getArgsProducer(args);
+		}
+		else{
+			producer = getConsoleProducer();
+		}
+		
+		start(producer);
 	}
 
 	private static RequestProducer getArgsProducer(String[] args) {

@@ -6,12 +6,20 @@ public class NamingRule {
 	static Pattern namePattern = Pattern.compile("^[a-zA-Z][a-zA-Z0-9_]*$");   
 	static Pattern pkgPattern = Pattern.compile("^[a-zA-Z][a-zA-Z0-9_]*(.[a-zA-Z][a-zA-Z0-9_]*)*$");
 	
+	public static String lastName(String componentName){
+		int index = componentName.lastIndexOf('.');
+		if (index >= 0){
+			return componentName.substring(index + 1);
+		}
+		return componentName;
+	}
+	
 	public static String getServletPath(String componentName){
 		return OptionRule.getBasePath() + "/" + getServletName(componentName).replace(".", "/");
 	}
 	
 	public static String getServletName(String componentName){
-		return OptionRule.getBasePackage() + ".controller.servlet." + componentName.toLowerCase() + "." + componentName + "Servlet";
+		return OptionRule.getBasePackage() + ".controller.servlet." + componentName.toLowerCase() + "." + lastName(componentName) + "Servlet";
 	}
 	
 	public static String getWebServicePath(String componentName){
@@ -19,7 +27,7 @@ public class NamingRule {
 	}
 	
 	public static String getWebServiceName(String componentName){
-		return OptionRule.getBasePackage() + ".controller.webservice." + componentName.toLowerCase() + "." + componentName + "WebService";
+		return OptionRule.getBasePackage() + ".controller.webservice." + componentName.toLowerCase() + "." + lastName(componentName) + "WebService";
 	}
 	
 	public static String getServicePath(String componentName){
@@ -27,7 +35,7 @@ public class NamingRule {
 	}
 	
 	public static String getServiceName(String componentName){
-		return OptionRule.getBasePackage() + ".service." + componentName.toLowerCase() + "." + componentName + "Service";
+		return OptionRule.getBasePackage() + ".service." + componentName.toLowerCase() + "." + lastName(componentName) + "Service";
 	}
 	
 	public static String getDaoPath(String componentName){
@@ -35,7 +43,7 @@ public class NamingRule {
 	}
 	
 	public static String getDaoName(String componentName){
-		return OptionRule.getBasePackage() + ".model.dao." + componentName.toLowerCase() + "." + componentName + "Dao";
+		return OptionRule.getBasePackage() + ".model.dao." + componentName.toLowerCase() + "." + lastName(componentName) + "Dao";
 	}
 	
 	public static String getEntityPath(String componentName){

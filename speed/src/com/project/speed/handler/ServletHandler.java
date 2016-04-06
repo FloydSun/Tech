@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
-import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
