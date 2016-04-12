@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CodeUtil {
-	static Pattern classPattern = Pattern.compile("\\s+class\\s+\\S+");   
+	static Pattern classPattern = Pattern.compile("\\s+class\\s+\\S+");
 	static Pattern interfacePattern = Pattern.compile("\\s+interface\\s+\\S+");   
 	static Pattern implementsPattern = Pattern.compile("\\s+implements\\s+\\S+"); 
 	static Pattern extendsPattern = Pattern.compile("\\s+extends\\s+\\S+"); 

@@ -44,6 +44,15 @@ public class OptionHandler extends Handler {
 				}
 			}
 			return true;
+		}else if(Request.FPKG.equals(req.getType())){//pkg <package>
+			if (req.getArgs().isEmpty()){
+				System.out.println("frame package : " + OptionRule.getFramePackage());
+			}else{
+				if (!OptionRule.setFramePackage(req.getArgs().get(0))){
+					System.out.println(req.getArgs().get(0) + " 非法");
+				}
+			}
+			return true;
 		}else if(!Request.HELP.equals(req.getType())){
 			if (null == OptionRule.getBasePackage()){
 				System.out.println("请通过 " + Request.PKG + " 命令设置包名称");

@@ -60,7 +60,7 @@ public class EntityHandler extends Handler {
 				text = CodeUtil.setClassName(text, NamingRule.getClassName(totalClassName));
 				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(totalClassName));
 				if ("-f".equals(req.getArgs().get(0))){
-					text = CodeUtil.addImport(text, "com.speed.frame.model.entity.AbstractReadWriteEntity");
+					text = CodeUtil.addImport(text,  OptionRule.getFramePackage() + ".model.entity.AbstractReadWriteEntity");
 					text = CodeUtil.addImport(text, "javax.persistence.Id");
 					text = CodeUtil.addImport(text, "javax.persistence.GeneratedValue");
 					text = CodeUtil.addImport(text, "javax.persistence.GenerationType");
@@ -76,14 +76,14 @@ public class EntityHandler extends Handler {
 					
 					String daoPath = NamingRule.getDaoPath(req.getArgs().get(1)) + ".java";
 					String textDao = FileUtil.readText(daoPath, "utf-8");
-					textDao = CodeUtil.addImport(textDao, "com.speed.frame.model.dao.AbstractReadWriteDao");
+					textDao = CodeUtil.addImport(textDao, OptionRule.getFramePackage() + ".model.dao.AbstractReadWriteDao");
 					textDao = CodeUtil.setExtendsName(textDao, "AbstractReadWriteDao<" + NamingRule.getClassName(totalClassName) + ">");
 					textDao = CodeUtil.addImport(textDao, totalClassName);
 					FileUtil.setText(daoPath, textDao, "utf-8");
 					
 					String daoPathImpl = NamingRule.getDaoPath(req.getArgs().get(1)) + "Impl.java";
 					String textDaoImpl = FileUtil.readText(daoPathImpl, "utf-8");
-					textDaoImpl = CodeUtil.addImport(textDaoImpl, "com.speed.frame.model.dao.AbstractReadWriteDaoImpl");
+					textDaoImpl = CodeUtil.addImport(textDaoImpl,  OptionRule.getFramePackage() + ".model.dao.AbstractReadWriteDaoImpl");
 					textDaoImpl = CodeUtil.addImport(textDaoImpl, totalClassName);
 					textDaoImpl = CodeUtil.setExtendsName(textDaoImpl, "AbstractReadWriteDaoImpl<" + NamingRule.getClassName(totalClassName) + ">");
 					textDaoImpl = CodeUtil.setEntityManager(textDaoImpl, "public void setEntityManager(EntityManager entityManager) {\r\n" +

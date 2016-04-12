@@ -15,6 +15,7 @@ public class Request {
 	public final static String EXIT = "exit";
 	public final static String SWD = "swd";
 	public final static String PKG = "pkg";
+	public final static String FPKG = "fpkg";
 	public final static String HELP = "help";
 	public final static String PROJECT = "project";
 	public final static String WEBSERVICE = "webservice";

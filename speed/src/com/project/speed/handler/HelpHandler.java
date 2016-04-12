@@ -17,6 +17,7 @@ public class HelpHandler extends Handler {
 		System.out.println(Request.ENTITY  + " <-f | -n> <component Name> <table name> ");
 		System.out.println(Request.SWD  + " <path>" + " 设置工作路径 ");
 		System.out.println(Request.PKG  + " [<package>]");
+		System.out.println(Request.FPKG  + " [<frame package>]");
 		System.out.println(Request.PWD + " 打印工作路径 ");
 		System.out.println(Request.LS);
 		System.out.println(Request.EXIT);

@@ -4,8 +4,19 @@ public class OptionRule {
 	
 	static String basePath = "";
 	static String basePackage = null;
+	static String framePackage="com.speed.frame";
 	public static String getBasePath() {
 		return basePath;
+	}
+	public static String getFramePackage() {
+		return framePackage;
+	}
+	public static boolean setFramePackage(String framePackage) {
+		if (NamingRule.validatePackage(framePackage)){
+			OptionRule.framePackage = framePackage;
+			return true;
+		}
+		return false;
 	}
 	public static void setBasePath(String basePath) {
 		if (basePath.charAt(basePath.length() - 1) == '\\' || basePath.charAt(basePath.length() - 1) == '/'){
@@ -14,6 +25,7 @@ public class OptionRule {
 			OptionRule.basePath = basePath;
 		}
 	}
+	
 	public static String getBasePackage() {
 		return basePackage;
 	}
