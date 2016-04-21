@@ -1,14 +1,18 @@
-package com.project.speed.handler;
+package com.project.speed.handler.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import com.project.speed.handler.Handler;
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
 import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
+import com.project.speed.util.SQLScriptUtil;
+import com.project.speed.util.SQLScriptUtil.TableField;
 
 
 //entity <-i | -n> <component Name> <table name>
@@ -28,6 +32,14 @@ public class EntityHandler extends Handler {
 				if (!NamingRule.validateClass(req.getArgs().get(2))){
 					System.out.println("table name 非法");
 					bRet = false;
+				}
+				
+				if (req.getArgs().size() >= 4){
+					File f = new File(req.getArgs().get(3));
+					if (!f.exists() || !f.isFile()){
+						System.out.println("非法脚本文件");
+						bRet = false;
+					}
 				}
 				
 			}else{
@@ -59,7 +71,8 @@ public class EntityHandler extends Handler {
 				text = CodeUtil.setTableName(text, req.getArgs().get(2));
 				text = CodeUtil.setClassName(text, NamingRule.getClassName(totalClassName));
 				text = CodeUtil.setPackageName(text, NamingRule.getPackageName(totalClassName));
-				if ("-f".equals(req.getArgs().get(0))){
+				boolean isFrame = "-f".equals(req.getArgs().get(0));
+				if (isFrame){
 					text = CodeUtil.addImport(text,  OptionRule.getFramePackage() + ".model.entity.AbstractReadWriteEntity");
 					text = CodeUtil.addImport(text, "javax.persistence.Id");
 					text = CodeUtil.addImport(text, "javax.persistence.GeneratedValue");
@@ -91,6 +104,47 @@ public class EntityHandler extends Handler {
 					"\t}");
 					FileUtil.setText(daoPathImpl, textDaoImpl, "utf-8");
 				}
+				
+				
+				if (req.getArgs().size() >= 4){
+					String script = FileUtil.readText(req.getArgs().get(3), "utf-8");
+					List<TableField> fields = SQLScriptUtil.getTableFields(script, req.getArgs().get(2));
+					for (TableField fd : fields){
+						if (isFrame && "id".equals(fd.getName())){
+							
+						}else{
+							if ("int".equalsIgnoreCase(fd.getType())){
+								text = CodeUtil.addMember(text, 
+										"\tInteger " + fd.getName() + ";\r\n" +
+										"\tpublic Integer get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+										"\t\t return " + fd.getName() + ";\r\n" +
+										"\t}\r\n" + 
+										"\tpublic Integer set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Integer " + fd.getName() +"){\r\n" +
+										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+										"\t}");
+							}else if("numeric".equalsIgnoreCase(fd.getType())){
+								text = CodeUtil.addMember(text, 
+										"\tInteger " + fd.getName() + ";\r\n" +
+										"\tpublic Double get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+										"\t\t return " + fd.getName() + ";\r\n" +
+										"\t}\r\n" + 
+										"\tpublic Double set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Double " + fd.getName() +"){\r\n" +
+										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+										"\t}");
+							}else if("varchar".equalsIgnoreCase(fd.getType())){
+								text = CodeUtil.addMember(text, 
+										"\tInteger " + fd.getName() + ";\r\n" +
+										"\tpublic String get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+										"\t\t return " + fd.getName() + ";\r\n" +
+										"\t}\r\n" + 
+										"\tpublic String set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(String " + fd.getName() +"){\r\n" +
+										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+										"\t}");
+							}
+						}
+					}
+				}
+				
 				FileUtil.setText(path, text, "utf-8");
 
 			} catch (IOException e) {

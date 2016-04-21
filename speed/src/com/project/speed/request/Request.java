@@ -11,6 +11,8 @@ public class Request {
 	public final static String SERVLET = "servlet";
 	public final static String SERVICE = "service";
 	public final static String ENTITY = "entity";
+	public final static String UIFRAME = "uiframe";
+	public final static String UIPLUGIN = "uiplugin";
 	public final static String DAO = "dao";
 	public final static String EXIT = "exit";
 	public final static String SWD = "swd";

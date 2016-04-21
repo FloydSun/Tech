@@ -14,11 +14,13 @@ public class HelpHandler extends Handler {
 		System.out.println(Request.WEBSERVICE  + " <component Name> <request map>");
 		System.out.println(Request.SERVICE  + " <component Name> <transaction> [-w|-s <controller name>]");
 		System.out.println(Request.DAO  + " <component Name> <db name>  <transaction> [<service name>]");
-		System.out.println(Request.ENTITY  + " <-f | -n> <component Name> <table name> ");
+		System.out.println(Request.ENTITY  + " <-f | -n> <component Name> <table name> [script path]");
 		System.out.println(Request.SWD  + " <path>" + " 设置工作路径 ");
 		System.out.println(Request.PKG  + " [<package>]");
 		System.out.println(Request.FPKG  + " [<frame package>]");
 		System.out.println(Request.PWD + " 打印工作路径 ");
+		System.out.println(Request.UIFRAME + " uiframe <component Name> ");
+		System.out.println(Request.UIPLUGIN + " uiplugin <component Name> <uiframe component Name> ");
 		System.out.println(Request.LS);
 		System.out.println(Request.EXIT);
 		System.out.println(Request.HELP);

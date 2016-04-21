@@ -10,17 +10,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.project.speed.handler.DaoHandler;
-import com.project.speed.handler.EntityHandler;
 import com.project.speed.handler.ExitHandler;
-import com.project.speed.handler.FrameHandler;
 import com.project.speed.handler.Handler;
 import com.project.speed.handler.HelpHandler;
 import com.project.speed.handler.OptionHandler;
-import com.project.speed.handler.ProjectHandler;
-import com.project.speed.handler.ServiceHandler;
-import com.project.speed.handler.ServletHandler;
-import com.project.speed.handler.WebServiceHandler;
+import com.project.speed.handler.server.DaoHandler;
+import com.project.speed.handler.server.EntityHandler;
+import com.project.speed.handler.server.FrameHandler;
+import com.project.speed.handler.server.ProjectHandler;
+import com.project.speed.handler.server.ServiceHandler;
+import com.project.speed.handler.server.ServletHandler;
+import com.project.speed.handler.server.WebServiceHandler;
+import com.project.speed.handler.web.UIFrameHandler;
+import com.project.speed.handler.web.UIPluginHandler;
 import com.project.speed.request.Request;
 import com.project.speed.request.RequestServer;
 import com.project.speed.rule.OptionRule;
@@ -78,6 +80,8 @@ public class Speed {
 				.add(new OptionHandler()).add(new WebServiceHandler())
 				.add(new ServletHandler()).add(new ServiceHandler())
 				.add(new DaoHandler()).add(new EntityHandler())
+				.add(new UIFrameHandler())
+				.add(new UIPluginHandler())
 				.add(new HelpHandler());
 
 		RequestServer.start();

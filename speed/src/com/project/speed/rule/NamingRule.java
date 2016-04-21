@@ -14,6 +14,14 @@ public class NamingRule {
 		return componentName;
 	}
 	
+	public static String getUIPluginPath(String frameName, String componentName){
+		return OptionRule.getBasePath() + "/jsp/" + frameName.toLowerCase().replace(".", "/") + "/" + componentName.toLowerCase().replace(".", "/") + "/" + lastName(componentName);
+	}
+	
+	public static String getUIFramePath(String componentName){
+		return OptionRule.getBasePath() + "/jsp/" + componentName.toLowerCase().replace(".", "/") + "/" + lastName(componentName);
+	}
+	
 	public static String getServletPath(String componentName){
 		return OptionRule.getBasePath() + "/" + getServletName(componentName).replace(".", "/");
 	}
