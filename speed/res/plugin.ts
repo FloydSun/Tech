@@ -100,7 +100,7 @@ module #FRAME# {
                         shrinkToFit: true,
                         autoScroll: true,
                         rowNum: 20,
-                        data: tableAssist.getData(data),
+                        data: tableAssist.getData(this.mData),
                         datatype: "local",
                         viewrecords : true
                     }));
