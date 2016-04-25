@@ -33,7 +33,7 @@ module #FRAME# {
         class ShowView extends framework.basic.ShowPluginView {
             static ins = new ShowView();
             private mData:Array<string[]>;
-            private mAjax:Util.Ajax = new Util.Ajax("template/update.do", false);
+            private mAjax:Util.Ajax = new Util.Ajax("../template/update.do", false);
             private mDateSelector:Util.DateSelector;
             private mDt: string;
             private mCompType:Util.CompanyType;
@@ -43,7 +43,7 @@ module #FRAME# {
             }
 
             pluginGetExportUrl(date:string, compType:Util.CompanyType):string {
-                return "template/export.do?" + Util.Ajax.toUrlParam({
+                return "../template/export.do?" + Util.Ajax.toUrlParam({
                         date: date,
                         companyId:compType
                     });

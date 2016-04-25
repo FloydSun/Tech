@@ -39,9 +39,9 @@ module #FRAME# {
         class EntryView extends framework.basic.EntryPluginView {
             static ins = new EntryView();
             private mData:Array<string[]>;
-            private mAjaxUpdate:Util.Ajax = new Util.Ajax("template/entry/update.do", false);
-            private mAjaxSave:Util.Ajax = new Util.Ajax("template/entry/save.do", false);
-            private mAjaxSubmit:Util.Ajax = new Util.Ajax("template/entry/submit.do", false);
+            private mAjaxUpdate:Util.Ajax = new Util.Ajax("../template/entry/update.do", false);
+            private mAjaxSave:Util.Ajax = new Util.Ajax("../template/entry/save.do", false);
+            private mAjaxSubmit:Util.Ajax = new Util.Ajax("../template/entry/submit.do", false);
             private mDt:string;
             private mTableAssist:JQTable.JQGridAssistant;
             private mCompType:Util.CompanyType;
@@ -134,7 +134,7 @@ module #FRAME# {
             }
 
             private updateTable():void {
-                var name = this.option().host + this.option().tb + "_jqgrid_1234";
+                var name = this.option().host + this.option().tb + "_jqgrid_uiframe";
                 var pagername = name + "pager";
                 this.mTableAssist = JQGridAssistantFactory.createTable(name, false);
                 let data = [];

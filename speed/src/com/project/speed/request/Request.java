@@ -24,6 +24,7 @@ public class Request {
 	public final static String PWD = "pwd";
 	public final static String LS = "ls";
 	
+	public final static String ADDMETHOD = "addMethod";
 	String type;
 	List<String> args;
 	

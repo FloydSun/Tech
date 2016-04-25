@@ -183,7 +183,6 @@ th.ui-th-ltr {
 		</tr>
 		<tr>
 			<td id="plugin">
-				
 			</td>
 		</tr>
 		<tr>

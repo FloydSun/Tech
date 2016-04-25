@@ -33,7 +33,7 @@ public class ServiceHandler extends Handler {
 					if (req.getArgs().size() <= 3){
 						System.out.println("参数过少");
 						bRet = false;
-					}else if (!NamingRule.validateClass(req.getArgs().get(3))){
+					}else if (!NamingRule.validatePackage(req.getArgs().get(3))){
 						System.out.println("controller name 非法");
 						bRet = false;
 					}

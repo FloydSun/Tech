@@ -14,6 +14,7 @@ import com.project.speed.handler.ExitHandler;
 import com.project.speed.handler.Handler;
 import com.project.speed.handler.HelpHandler;
 import com.project.speed.handler.OptionHandler;
+import com.project.speed.handler.internal.AddMethodHandler;
 import com.project.speed.handler.server.DaoHandler;
 import com.project.speed.handler.server.EntityHandler;
 import com.project.speed.handler.server.FrameHandler;
@@ -71,7 +72,7 @@ public class Speed {
 
 	public static void start(RequestProducer producer) {
 
-		if (null == producer) {
+ 		if (null == producer) {
 			return;
 		}
 
@@ -82,6 +83,7 @@ public class Speed {
 				.add(new DaoHandler()).add(new EntityHandler())
 				.add(new UIFrameHandler())
 				.add(new UIPluginHandler())
+				.add(new AddMethodHandler())				
 				.add(new HelpHandler());
 
 		RequestServer.start();

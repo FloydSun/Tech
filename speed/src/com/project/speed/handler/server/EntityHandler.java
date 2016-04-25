@@ -23,7 +23,7 @@ public class EntityHandler extends Handler {
 	private boolean validateRequest(Request req){
 		boolean bRet = true;
 		if (Request.ENTITY.equals(req.getType())){
-			if (req.getArgs().size() >= 3){
+			if (req.getArgs().size() >= 2){
 				if (!NamingRule.validatePackage(req.getArgs().get(1))){
 					System.out.println("class name 非法");
 					bRet = false;
@@ -34,13 +34,13 @@ public class EntityHandler extends Handler {
 					bRet = false;
 				}
 				
-				if (req.getArgs().size() >= 4){
-					File f = new File(req.getArgs().get(3));
-					if (!f.exists() || !f.isFile()){
-						System.out.println("非法脚本文件");
-						bRet = false;
-					}
-				}
+//				if (req.getArgs().size() >= 4){
+//					File f = new File(req.getArgs().get(3));
+//					if (!f.exists() || !f.isFile()){
+//						System.out.println("非法脚本文件");
+//						bRet = false;
+//					}
+//				}
 				
 			}else{
 				System.out.println("参数过少");
@@ -80,12 +80,12 @@ public class EntityHandler extends Handler {
 					text = CodeUtil.addImport(text, "javax.persistence.Column");
 					text = CodeUtil.setExtendsName(text, "AbstractReadWriteEntity");
 					text = CodeUtil.addMember(text, 
-					"\t@Id\r\n"+
-					"\t@GeneratedValue(strategy = GenerationType.AUTO)\r\n" +
-					"\t@Column(name = \"id\")\r\n" +
-					"\tpublic int getId() {\r\n" +
-					"\t\treturn super.getId();\r\n" +
-					"\t}");
+						"\t@Id\r\n"+
+						"\t@GeneratedValue(strategy = GenerationType.AUTO)\r\n" +
+						"\t@Column(name = \"id\")\r\n" +
+						"\tpublic int getId() {\r\n" +
+						"\t\treturn super.getId();\r\n" +
+						"\t}");
 					
 					String daoPath = NamingRule.getDaoPath(req.getArgs().get(1)) + ".java";
 					String textDao = FileUtil.readText(daoPath, "utf-8");
@@ -106,44 +106,44 @@ public class EntityHandler extends Handler {
 				}
 				
 				
-				if (req.getArgs().size() >= 4){
-					String script = FileUtil.readText(req.getArgs().get(3), "utf-8");
-					List<TableField> fields = SQLScriptUtil.getTableFields(script, req.getArgs().get(2));
-					for (TableField fd : fields){
-						if (isFrame && "id".equals(fd.getName())){
-							
-						}else{
-							if ("int".equalsIgnoreCase(fd.getType())){
-								text = CodeUtil.addMember(text, 
-										"\tInteger " + fd.getName() + ";\r\n" +
-										"\tpublic Integer get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
-										"\t\t return " + fd.getName() + ";\r\n" +
-										"\t}\r\n" + 
-										"\tpublic Integer set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Integer " + fd.getName() +"){\r\n" +
-										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
-										"\t}");
-							}else if("numeric".equalsIgnoreCase(fd.getType())){
-								text = CodeUtil.addMember(text, 
-										"\tInteger " + fd.getName() + ";\r\n" +
-										"\tpublic Double get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
-										"\t\t return " + fd.getName() + ";\r\n" +
-										"\t}\r\n" + 
-										"\tpublic Double set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Double " + fd.getName() +"){\r\n" +
-										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
-										"\t}");
-							}else if("varchar".equalsIgnoreCase(fd.getType())){
-								text = CodeUtil.addMember(text, 
-										"\tInteger " + fd.getName() + ";\r\n" +
-										"\tpublic String get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
-										"\t\t return " + fd.getName() + ";\r\n" +
-										"\t}\r\n" + 
-										"\tpublic String set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(String " + fd.getName() +"){\r\n" +
-										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
-										"\t}");
-							}
-						}
-					}
-				}
+//				if (req.getArgs().size() >= 4){
+//					String script = FileUtil.readText(req.getArgs().get(3), "utf-8");
+//					List<TableField> fields = SQLScriptUtil.getTableFields(script, req.getArgs().get(2));
+//					for (TableField fd : fields){
+//						if (isFrame && "id".equals(fd.getName())){
+//							
+//						}else{
+//							if ("int".equalsIgnoreCase(fd.getType())){
+//								text = CodeUtil.addMember(text, 
+//										"\tInteger " + fd.getName() + ";\r\n" +
+//										"\tpublic Integer get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+//										"\t\t return " + fd.getName() + ";\r\n" +
+//										"\t}\r\n" + 
+//										"\tpublic Integer set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Integer " + fd.getName() +"){\r\n" +
+//										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+//										"\t}");
+//							}else if("numeric".equalsIgnoreCase(fd.getType())){
+//								text = CodeUtil.addMember(text, 
+//										"\tDouble " + fd.getName() + ";\r\n" +
+//										"\tpublic Double get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+//										"\t\t return " + fd.getName() + ";\r\n" +
+//										"\t}\r\n" + 
+//										"\tpublic Double set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(Double " + fd.getName() +"){\r\n" +
+//										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+//										"\t}");
+//							}else if("varchar".equalsIgnoreCase(fd.getType())){
+//								text = CodeUtil.addMember(text, 
+//										"\tInteger " + fd.getName() + ";\r\n" +
+//										"\tpublic String get" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(){\r\n" +
+//										"\t\t return " + fd.getName() + ";\r\n" +
+//										"\t}\r\n" + 
+//										"\tpublic String set" + fd.getName().substring(0, 1).toUpperCase() + fd.getName().substring(1) + "(String " + fd.getName() +"){\r\n" +
+//										"\t\t this." + fd.getName() + " = " + fd.getName() + ";\r\n" +
+//										"\t}");
+//							}
+//						}
+//					}
+//				}
 				
 				FileUtil.setText(path, text, "utf-8");
 
