@@ -92,9 +92,13 @@ public class FileUtil {
 		if (!outputFile.exists()){
 			outputFile.mkdirs(); 
 		}
-		InputStream is = FileUtil.class.getResourceAsStream(from);
-		if (null == is){
-			is = new FileInputStream(from.substring(1));
+		
+		File inFile = new File(from.substring(1));
+		InputStream is = null;
+		if (inFile.exists()){
+			is = new FileInputStream(inFile);
+		}else{
+			is = FileUtil.class.getResourceAsStream(from);
 		}
 		copy(is, new FileOutputStream(to));
 	}	

@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.project.speed.handler.Handler;
 import com.project.speed.request.Request;
 import com.project.speed.rule.NamingRule;
-import com.project.speed.rule.OptionRule;
 import com.project.speed.util.CodeUtil;
 import com.project.speed.util.FileUtil;
 
@@ -89,9 +88,9 @@ public class ServiceHandler extends Handler {
 					
 					String controllerPath;
 					if ("-s".equals(req.getArgs().get(2))){
-						controllerPath = NamingRule.getServletPath(req.getArgs().get(0)) + ".java";
+						controllerPath = NamingRule.getServletPath(req.getArgs().get(3)) + ".java";
 					}else{
-						controllerPath = NamingRule.getWebServicePath(req.getArgs().get(0)) + ".java";
+						controllerPath = NamingRule.getWebServicePath(req.getArgs().get(3)) + ".java";
 					}
 					
 					text = FileUtil.readText(controllerPath, "utf-8");
