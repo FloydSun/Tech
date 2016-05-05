@@ -69,8 +69,9 @@ module #FRAME# {
                     companyId: compType
                 }).then((resp:Util.IResponse) => {
                     if (Util.ErrorCode.OK == resp.errorCode) {
-                        this.pluginUpdate(dt, compType);
-                        Util.MessageBox.tip("保存 成功");
+                        Util.MessageBox.tip("保存 成功", ()=>{
+                            this.pluginUpdate(dt, compType);
+                        });
                     } else {
                         Util.MessageBox.tip(resp.message);
                     }
@@ -97,8 +98,9 @@ module #FRAME# {
                     companyId: compType
                 }).then((resp:Util.IResponse) => {
                     if (Util.ErrorCode.OK == resp.errorCode) {
-                        this.pluginUpdate(dt, compType);
-                        Util.MessageBox.tip("提交 成功");
+                        Util.MessageBox.tip("提交 成功", ()=>{
+                            this.pluginUpdate(dt, compType);
+                        });
                     } else {
                         Util.MessageBox.tip(resp.message);
                     }
@@ -128,25 +130,12 @@ module #FRAME# {
 
             protected init(opt:Option):void {
                 framework.router.fromEp(this).to(framework.basic.endpoint.FRAME_ID).send(framework.basic.FrameEvent.FE_REGISTER, "大宗材料控成本");
-                $.extend($.jgrid.edit, {
-                    bSubmit: "确定"
-                });
             }
 
             private updateTable():void {
                 var name = this.option().host + this.option().tb + "_jqgrid_uiframe";
                 var pagername = name + "pager";
                 this.mTableAssist = JQGridAssistantFactory.createTable(name, false);
-                let data = [];
-                if (this.mCompType == Util.CompanyType.SBGS ||
-                    this.mCompType == Util.CompanyType.HBGS ||
-                    this.mCompType == Util.CompanyType.TBGS ||
-                    this.mCompType == Util.CompanyType.XBC){
-                    data.push(["铜"].concat(this.mData[0]));
-                }else{
-                    data.push(["铜"].concat(this.mData[0]));
-                    data.push(["铝"].concat(this.mData[1]));
-                }
 
                 var parent = this.$(this.option().tb);
                 parent.empty();
@@ -155,7 +144,7 @@ module #FRAME# {
                 jqTable.jqGrid(
                     this.mTableAssist.decorate({
                         datatype: "local",
-                        data: this.mTableAssist.getData(data),
+                        data: this.mTableAssist.getDataWithId(this.mData),
                         multiselect: false,
                         drag: false,
                         resize: false,
@@ -171,7 +160,7 @@ module #FRAME# {
                         width: 1200,
                         shrinkToFit: true,
                         autoScroll: true,
-                        viewrecords: true,
+                        viewrecords: true
                         //pager: '#' + pagername,
                     }));
             }
