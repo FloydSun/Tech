@@ -16,7 +16,7 @@ import com.project.speed.util.FileUtil;
 //template <project name> <package name>
 public class ProjectHandler extends Handler {
 
-	private static final String srcPath = "/project/src/main/java/com/speed/template/common/";
+	private static final String srcPath = "/project/src/main/java/com/speed/template/";
 	private static final String javaPath = "/project/src/main/java";
 
 	
@@ -39,15 +39,17 @@ public class ProjectHandler extends Handler {
 	}
 	
 	private void modifySourceFile(String outPath, String pkgName, String projName) throws IOException{
-		pkgName += ".common";
 		String pkgPath = pkgName.replace(".", "/");
 		List<String> fileList = new ArrayList<String>();
-		fileList.add("AjaxRedirect.java");
-		fileList.add("OnlineService.java");
-		fileList.add("RequestValidator.java");
+		fileList.add("controller/servlet/session/Session.java");
+		fileList.add("controller/servlet/test/TestSessionController.java");
+		fileList.add("controller/webservice/test/TestWS.java");
+		fileList.add("service/security/AuthenticationProviderImpl.java");
+		fileList.add("service/security/GrantedAuthorityImpl.java");
+		fileList.add("service/security/UserDetailsServiceImpl.java");
 		for(String src : fileList){
 			String text = FileUtil.readText(outPath + srcPath + src, "utf-8");		
-			text = CodeUtil.setPackageName(text, pkgName);
+			text = CodeUtil.setPackageName(text, pkgName + "." + FileUtil.getDir(src).replace("/", "."));
 			FileUtil.setText(outPath + srcPath + src, text, "utf-8");
 			FileUtil.cut(outPath + srcPath + src, outPath + javaPath + "/" + src);
 		}
@@ -99,8 +101,11 @@ public class ProjectHandler extends Handler {
 		fileList.add("project/pom.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-services.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-servlet.xml");
-		fileList.add("project/src/main/webapp/WEB-INF/applicationContext-webservices.xml");
+		fileList.add("project/src/main/webapp/WEB-INF/cxf-webservices.xml");
+		fileList.add("project/src/main/webapp/WEB-INF/spring-security.xml");
+		fileList.add("project/src/main/webapp/WEB-INF/spring-session.xml");
 		fileList.add("project/src/main/webapp/WEB-INF/web.xml");
+		fileList.add("project/src/main/webapp/WEB-INF/log4j.xml");
 		for(String src : fileList){
 			String text = FileUtil.readText(outPath + "/" + src, "utf-8");		
 			text = text.replace("com.speed.template", pkgName).replace("speedTemplate", projName);

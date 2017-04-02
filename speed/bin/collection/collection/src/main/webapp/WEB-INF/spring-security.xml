@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+    <http pattern="/webservice/*" security="none" /> 
+    <http pattern="/session/timeout*" security="none" /> 
+	<http pattern="/login1.jsp" security="none" /> 
+	
+	<authentication-manager>  
+        <authentication-provider ref="authenticationProvider">  
+        </authentication-provider>  
+    </authentication-manager>  
+	
+	<http auto-config="true">
+		<access-denied-handler ref="accessDeniedHandler"/> 
+		<session-management invalid-session-url="/session/timeout?redirect=/login.jsp"></session-management>
+		<intercept-url pattern="/admin**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/app.jsp" access="hasRole('ROLE_SERVICE')"/>  
+	    <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>  
+	      
+	    <logout logout-url="/logout.do" logout-success-url="/login1.jsp"/>
+	    <form-login login-page="/login1.jsp" authentication-failure-url="/error.jsp"  
+	        default-target-url="/index.jsp"/>
+	    <csrf disabled="true"/>
+	</http>
+
+	<beans:bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">  
+	    <beans:constructor-arg>  
+			<beans:bean class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>  
+	    </beans:constructor-arg>  
+	</beans:bean>
+	<beans:bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
+
+	<!-- 自定义权限不足处理程序 -->  
+	<beans:bean id="accessDeniedHandler" class="com.spring.session.AjaxAccessDeniedHandler">  
+	    <beans:property name="errorPage" value="/error.jsp"></beans:property>  
+	</beans:bean>  
+
+</beans:beans>

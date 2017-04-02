@@ -174,13 +174,13 @@ public class Speed {
 			return new RequestProducer() {
 
 				private int i = 0;
-
+				RequestProducer producer = getConsoleProducer();
 				@Override
 				public Request produce() {
 					if (i < args.length) {
 						return Request.parse(args[i++]);
 					} else {
-						return Request.parse(Request.EXIT);
+						return producer.produce();
 					}
 				}
 			};
